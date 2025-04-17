@@ -4,7 +4,7 @@ Aplikace pro sběr a správu zpětné vazby pomocí API rozhraní.
 
 ## Požadavky
 
-- PHP 8.1 nebo vyšší
+- PHP 8.4.6
 - Composer
 - MySQL/MariaDB
 - Symfony CLI (volitelné, pro lokální vývoj)
