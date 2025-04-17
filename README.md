@@ -60,6 +60,8 @@ php bin/console doctrine:migrations:migrate
 
 ## API Endpointy
 
+EP dokumentace zde: http://127.0.0.1:8000/api/
+
 ### Veřejné endpointy
 
 #### Odeslání zpětné vazby
