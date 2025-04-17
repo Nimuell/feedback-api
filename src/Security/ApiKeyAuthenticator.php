@@ -27,29 +27,41 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return $request->headers->has('Authorization');
+        // Vždy vrátíme true, aby se autentizace pokusila o provedení bez ohledu na hlavičku
+        return true;
     }
 
     public function authenticate(Request $request): Passport
     {
         $authorizationHeader = $request->headers->get('Authorization');
-        
+
         if ($this->logger) {
             $this->logger->info('Received authorization header: ' . $authorizationHeader);
         }
-        
+
+        // Kontrola, zda je Authorization hlavička přítomna a není prázdná
+        if (empty($authorizationHeader)) {
+            throw new CustomUserMessageAuthenticationException('Chybí Bearer token');
+        }
+
         // Extrakt API klíče z hlavičky - podporujeme oba formáty
         $apiKey = $authorizationHeader;
-        
+
         // Pokud začíná "Bearer ", odstraníme tento prefix
         if (str_starts_with($authorizationHeader, 'Bearer ')) {
             $apiKey = substr($authorizationHeader, 7);
+        } else {
+            throw new CustomUserMessageAuthenticationException('Neplatný formát tokenu - chybí prefix "Bearer "');
         }
         
         if ($this->logger) {
             $this->logger->info('Extracted API key: ' . $apiKey);
         }
 
+        if (empty($apiKey)) {
+            throw new CustomUserMessageAuthenticationException('Bearer token je prázdný');
+        }
+        
         if ($apiKey !== $this->apiKey) {
             throw new CustomUserMessageAuthenticationException('Neplatný API klíč');
         }
@@ -76,4 +88,4 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
-} 
+}
