@@ -1,0 +1,10 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+# Explicitní definice login endpointu - odstraňujeme, protože vytváří duplikát
+# api_login:
+#     path: /api/admin/login
+#     methods: ['POST']

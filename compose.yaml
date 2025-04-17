@@ -1,0 +1,28 @@
+services:
+  ###> doctrine/doctrine-bundle ###
+  # Databáze
+  database:
+    image: mariadb:${MARIADB_VERSION:-10.6}
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-notes_db}
+      # You should definitely change the password in production
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-!ChangeMe!}
+      MARIADB_USER: ${MARIADB_USER:-app}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-root}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MARIADB_USER:-app}", "-p${MARIADB_PASSWORD:-!ChangeMe!}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - database_data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/mysql:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

@@ -1,0 +1,30 @@
+api_platform:
+    title: Feedback
+    version: 1.0.0
+    formats:
+        jsonld:   ['application/ld+json']
+        json:     ['application/json']
+        html:     ['text/html']
+    docs_formats:
+        jsonld:   ['application/ld+json']
+        json:     ['application/json']
+        html:     ['text/html']
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        formats:
+            json: ['application/json']
+        extra_properties:
+            standard_put: true
+    swagger:
+        api_keys:
+            ApiKey:
+                name: Authorization
+                type: header
+        swagger_ui_extra_configuration:
+            persistAuthorization: true
+            useBasicAuthenticationWithAccessCodeGrant: false
+            defaultModelsExpandDepth: -1
+    oauth:
+        enabled: false
