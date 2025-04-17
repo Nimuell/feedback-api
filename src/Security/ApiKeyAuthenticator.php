@@ -50,10 +50,8 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
         // Pokud začíná "Bearer ", odstraníme tento prefix
         if (str_starts_with($authorizationHeader, 'Bearer ')) {
             $apiKey = substr($authorizationHeader, 7);
-        } else {
-            throw new CustomUserMessageAuthenticationException('Neplatný formát tokenu - chybí prefix "Bearer "');
         }
-        
+
         if ($this->logger) {
             $this->logger->info('Extracted API key: ' . $apiKey);
         }
@@ -61,7 +59,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
         if (empty($apiKey)) {
             throw new CustomUserMessageAuthenticationException('Bearer token je prázdný');
         }
-        
+
         if ($apiKey !== $this->apiKey) {
             throw new CustomUserMessageAuthenticationException('Neplatný API klíč');
         }
